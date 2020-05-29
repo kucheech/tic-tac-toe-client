@@ -1,36 +1,30 @@
-import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform, Text, View, TouchableOpacity } from 'react-native';
+import styles from './styles';
+import Constants from 'expo-constants';
+import useFetch from './useFetch';
 
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,\nCmd+D or shake for dev menu`,
-  android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
-});
+const { publishKey, subscribeKey, url } = Constants.manifest.extra;
 
-export default function App() {
+const App = () => {
+
+  const { response: data, error } = useFetch(url);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native!</Text>
-      <Text style={styles.instructions}>To get started, edit App.js</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
+      <Text style={styles.welcome}>Tic Tac Toe</Text>
+      <Text style={styles.instructions}>{data}</Text>
+
+      <TouchableOpacity onPress={() => alert('Starting a new session')} style={styles.button}>
+        <Text style={styles.buttonText}>Start a new game session</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => alert('Joining an existing session')} style={styles.button2}>
+        <Text style={styles.buttonText}>Join a session</Text>
+      </TouchableOpacity>
     </View>
   );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+};
+
+module.exports = App;
