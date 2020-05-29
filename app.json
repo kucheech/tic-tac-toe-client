@@ -1,0 +1,17 @@
+{
+  "name": "ticTacToeClient",
+  "displayName": "ticTacToeClient",
+  "expo": {
+    "name": "ticTacToeClient",
+    "slug": "ticTacToeClient",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
