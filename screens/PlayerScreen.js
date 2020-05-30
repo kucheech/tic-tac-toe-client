@@ -2,13 +2,15 @@ import * as React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { init } from '../redux/actions';
-
+import Game from '../components/Game';
 import styles from './styles';
 
 const PlayerScreen = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>PlayerScreen</Text>
+
+      <Game />
 
       <TouchableOpacity onPress={() => props.init()} style={[styles.button, styles.button3]}>
         <Text style={styles.buttonText}>Cancel</Text>

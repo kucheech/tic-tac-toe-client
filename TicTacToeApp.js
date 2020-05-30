@@ -11,11 +11,7 @@ import styles from './screens/styles';
 
 const { publishKey, subscribeKey, url } = Constants.manifest.extra;
 
-const TicTacToeApp = (props) => {
-  // const [inSession, setInSession] = useState(false);
-  // const { response: data, error } = useFetch(url);
-
-  console.log
+const TicTacToeApp = props => {
   return (
     <View style={styles.container}>
       {props.screen === HOME_SCREEN && <HomeScreen />}
