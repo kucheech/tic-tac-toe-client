@@ -18,14 +18,18 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: "green",
     padding: 16,
     borderRadius: 8,
+    marginTop: 24
+  },
+  button1: {
+    backgroundColor: "green",
   },
   button2: {
     backgroundColor: "blue",
-    padding: 16,
-    borderRadius: 8,
+  },
+  button3: {
+    backgroundColor: "red",
   },
   buttonText: {
     fontSize: 18,
