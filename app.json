@@ -1,15 +1,20 @@
 {
   "name": "ticTacToeClient",
-  "displayName": "ticTacToeClient",
+  "displayName": "Tic Tac Toe client",
   "expo": {
     "name": "ticTacToeClient",
     "slug": "ticTacToeClient",
+    "icon": "./assets/icon.png",
     "version": "1.0.0",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
+    },
     "assetBundlePatterns": [
       "**/*"
     ]
