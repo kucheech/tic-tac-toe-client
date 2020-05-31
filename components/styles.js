@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 0.2
   },
   button: {
     padding: 16,
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   squareText: {
-    fontSize: 24,
+    fontSize: 28,
     color: 'black',
   },
   row: {

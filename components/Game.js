@@ -3,9 +3,12 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import Board from './Board';
 import styles from './styles';
 import { connect } from 'react-redux';
-import { addMove, endSession } from '../redux/actions';
+import { addMove, endSession, setPlayerTurn } from '../redux/actions';
 
 const calculateWinner = squares => {
+
+  if (!squares.includes(null)) { return 'Draw'; }
+
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -22,34 +25,37 @@ const calculateWinner = squares => {
       return squares[a];
     }
   }
+
   return null;
 };
 
-const Game = props => {
-  // const [moves, setMoves] = useState([{ squares: Array(9).fill(null) }]);
-  const [playerTurn, setPlayerTurn] = useState('X');
+const getCoordinates = i => {
+  const x = Math.floor(i / 3) + 1;
+  const y = i % 3 + 1
+  return [x, y];
+}
 
+const Game = props => {
   const handleClick = i => {
+    if (props.playerTurn !== props.player.type || !props.gameStarted) { return; }
     const current = props.moves.slice(-1)[0];
     const squares = current.squares.slice();
     if (props.gameOver || squares[i]) { return; }
 
-    squares[i] = playerTurn;
-    // const newMoves = props.moves.concat([{ squares }]);
-    props.addMove({ squares, playerTurn });
-    const x = Math.floor(i / 3) + 1;
-    const y = i % 3 + 1
-    props.updateStatus({ status: `${playerTurn} set move at [${x}][${y}]`, squares, playerTurn });
+    const playerTurn = props.playerTurn;
 
-    setPlayerTurn(playerTurn === 'X' ? 'O' : 'X');
+    squares[i] = playerTurn;
+    props.addMove({ squares, playerTurn });
+    const [x, y] = getCoordinates(i);
+    props.updateStatus({ status: `${playerTurn} set move at [${x}][${y}]`, squares, playerTurn });
   };
 
-  let status = 'Next player: ' + playerTurn;
+  let status = 'Next player: ' + props.playerTurn;
   const current = props.moves.slice(-1)[0];
-  const winner = calculateWinner(current.squares);
-  if (winner) {
-    status = 'Winner: ' + winner;
-    props.updateStatus({ status });
+  const result = calculateWinner(current.squares);
+  if (result) {
+    status = result === 'Draw' ? 'Draw' : 'Winner: ' + result;
+    props.updateStatus({ status, gameOver: true });
     props.endSession(status);
   }
 
@@ -63,5 +69,5 @@ const Game = props => {
 
 // module.exports = Game;
 const mapStateToProps = state => state;
-const mapDispatchToProps = { addMove, endSession };
+const mapDispatchToProps = { addMove, endSession, setPlayerTurn };
 module.exports = connect(mapStateToProps, mapDispatchToProps)(Game);
