@@ -6,9 +6,14 @@ export default ({ config }) => {
       name: 'Tic Tac Toe',
       version: '0.0.1',
       extra: {
-        publishKey: process.env.EXPO_PUBLISHKEY,
-        subscribeKey: process.env.EXPO_SUBSCRIBEKEY,
-        url: process.env.EXPO_API_BASE_URL
+        pubnubKeys: {
+          publishKey: process.env.EXPO_PUBLISHKEY,
+          subscribeKey: process.env.EXPO_SUBSCRIBEKEY
+        },
+        aws_api: {
+          url: process.env.EXPO_API_URL,
+          key: process.env.EXPO_X_API_KEY
+        }
       },
     });
 };

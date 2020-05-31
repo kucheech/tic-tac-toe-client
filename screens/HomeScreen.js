@@ -10,11 +10,11 @@ const HomeScreen = props => {
     <View style={styles.container}>
       <Text style={styles.welcome}>Tic Tac Toe</Text>
 
-      <TouchableOpacity onPress={() => props.newSession()} style={[styles.button, styles.button1]}>
+      <TouchableOpacity onPress={() => props.newSession()} style={[styles.button, styles.buttonGreen]}>
         <Text style={styles.buttonText}>Start a new game session</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => props.joinSession()} style={[styles.button, styles.button2]}>
+      <TouchableOpacity onPress={() => props.joinSession()} style={[styles.button, styles.buttonBlue]}>
         <Text style={styles.buttonText}>Join a session</Text>
       </TouchableOpacity>
     </View>
