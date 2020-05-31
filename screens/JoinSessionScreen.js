@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { init, makeRequest } from '../redux/actions';
-import { AWAIT_SESSIONS_FETCHED } from '../redux/actionTypes';
-import { AWAIT_JOIN } from '../constants';
+import { init, makeRequest, gotoSession } from '../redux/actions';
+import { AWAIT_SESSIONS_FETCHED, GOTO_SESSION } from '../redux/actionTypes';
+import { AWAIT_JOIN, DISPLAY_ID } from '../constants';
 
 import styles from './styles';
 
@@ -28,8 +28,8 @@ const JoinSessionScreen = props => {
     const sessions = shuffle(props.availableSessionsToJoin).slice(0, n);
     return sessions.length ?
       sessions.map(s => (
-        <TouchableOpacity key={s.Id} onPress={() => Alert.alert(s.Id)} style={[styles.button, styles.buttonBlue]}>
-          <Text style={styles.buttonText}>{s.Id.slice(-5)}</Text>
+        <TouchableOpacity key={s.Id} onPress={() => props.gotoSession(s.Id)} style={[styles.button, styles.buttonBlue]}>
+          <Text style={styles.buttonText}>{DISPLAY_ID(s.Id)}</Text>
         </TouchableOpacity>
       ))
       :
@@ -50,5 +50,5 @@ const JoinSessionScreen = props => {
 };
 
 const mapStateToProps = state => state;
-const mapDispatchToProps = { init, makeRequest };
+const mapDispatchToProps = { init, makeRequest, gotoSession };
 module.exports = connect(mapStateToProps, mapDispatchToProps)(JoinSessionScreen);
