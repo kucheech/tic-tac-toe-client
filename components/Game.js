@@ -39,7 +39,7 @@ const Game = props => {
     props.addMove({ squares, playerTurn });
     const x = Math.floor(i / 3) + 1;
     const y = i % 3 + 1
-    props.updateStatus(`${playerTurn} set move at [${x}][${y}]`);
+    props.updateStatus({ status: `${playerTurn} set move at [${x}][${y}]`, squares, playerTurn });
 
     setPlayerTurn(playerTurn === 'X' ? 'O' : 'X');
   };
@@ -49,7 +49,7 @@ const Game = props => {
   const winner = calculateWinner(current.squares);
   if (winner) {
     status = 'Winner: ' + winner;
-    props.updateStatus(status);
+    props.updateStatus({ status });
     props.endSession(status);
   }
 

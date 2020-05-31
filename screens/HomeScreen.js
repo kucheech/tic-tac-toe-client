@@ -3,11 +3,12 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { newSession, joinSession, makeRequest, setPlayer } from '../redux/actions';
 import { SET_PLAYER } from '../redux/actionTypes';
+import { DISPLAY_ID } from '../constants';
 
 import styles from './styles';
 
 const HomeScreen = props => {
-
+  //create player and obtain a player id
   useEffect(() => {
     if (props.player) { return; }
     const url = `${props.aws_api.url}/player`;
@@ -19,7 +20,7 @@ const HomeScreen = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Tic Tac Toe</Text>
-      {props.player && <Text style={styles.instructions}>Player id: {props.player.Id.slice(-5)}</Text>}
+      {props.player && <Text style={styles.instructions}>Player id: {DISPLAY_ID(props.player.Id)}</Text>}
 
       <TouchableOpacity onPress={() => props.newSession()} style={[styles.button, styles.buttonGreen]}>
         <Text style={styles.buttonText}>Start a new game session</Text>

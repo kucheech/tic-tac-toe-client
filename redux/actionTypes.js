@@ -6,5 +6,6 @@ export const SESSION_CREATED = 'SESSION_CREATED';
 export const AWAIT_SESSIONS_FETCHED = 'AWAIT_SESSIONS_FETCHED';
 
 export const ADD_MOVE = 'ADD_MOVE';
+export const SET_MOVES = 'SET_MOVES';
 export const SET_PLAYER = 'SET_PLAYER';
 export const GAME_OVER = 'GAME_OVER';

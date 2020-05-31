@@ -4,10 +4,6 @@ import Constants from 'expo-constants';
 import PubNub from 'pubnub';
 
 const { pubnubKeys, aws_api } = Constants.manifest.extra;
-const pubnub = new PubNub(Object.assign({}, pubnubKeys, {
-  subscribeRequestTimeout: 60000,
-  presenceTimeout: 122,
-}));
 
 const INITIAL_STATE = {
   screen: HOME_SCREEN,
@@ -21,7 +17,7 @@ const INITIAL_STATE = {
   },
   sessionId: null,
   availableSessionsToJoin: [],
-  pubnub,
+  pubnub: null,
   aws_api,
   moves: [{ squares: Array(9).fill(null) }],
   gameOver: false
@@ -50,9 +46,16 @@ const rootReducer = (state = INITIAL_STATE, action) => {
       };
 
     case SESSION_CREATED:
+      const pubnub = new PubNub(Object.assign({}, pubnubKeys, {
+        subscribeRequestTimeout: 60000,
+        presenceTimeout: 122,
+        uuid: state.player.Id
+      }));
+
       return {
         ...state,
-        sessionId: action.payload.Id
+        sessionId: action.payload.Id,
+        pubnub
       };
 
     case AWAIT_SESSIONS_FETCHED:
