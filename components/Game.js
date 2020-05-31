@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import Board from './Board';
 import styles from './styles';
+import { connect } from 'react-redux';
+import { addMove, endSession } from '../redux/actions';
 
 const calculateWinner = squares => {
   const lines = [
@@ -24,32 +26,42 @@ const calculateWinner = squares => {
 };
 
 const Game = props => {
-  const [moves, setMoves] = useState([{ squares: Array(9).fill(null) }]);
+  // const [moves, setMoves] = useState([{ squares: Array(9).fill(null) }]);
   const [playerTurn, setPlayerTurn] = useState('X');
 
   const handleClick = i => {
-    const current = moves.slice(-1)[0];
+    const current = props.moves.slice(-1)[0];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) { return; }
+    if (props.gameOver || squares[i]) { return; }
 
     squares[i] = playerTurn;
+    // const newMoves = props.moves.concat([{ squares }]);
+    props.addMove({ squares, playerTurn });
+    const x = Math.floor(i / 3) + 1;
+    const y = i % 3 + 1
+    props.updateStatus(`${playerTurn} set move at [${x}][${y}]`);
+
     setPlayerTurn(playerTurn === 'X' ? 'O' : 'X');
-    setMoves(moves.concat([{ squares }]));
   };
 
   let status = 'Next player: ' + playerTurn;
-  const current = moves.slice(-1)[0];
+  const current = props.moves.slice(-1)[0];
   const winner = calculateWinner(current.squares);
   if (winner) {
     status = 'Winner: ' + winner;
+    props.updateStatus(status);
+    props.endSession(status);
   }
 
   return (
     <View style={styles.board}>
       <Text>{status}</Text>
-      <Board squares={current.squares} onClick={i => handleClick(i)} />
+      <Board squares={props.moves.slice(-1)[0].squares} onClick={i => handleClick(i)} />
     </View>
   );
 };
 
-module.exports = Game;
+// module.exports = Game;
+const mapStateToProps = state => state;
+const mapDispatchToProps = { addMove, endSession };
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Game);

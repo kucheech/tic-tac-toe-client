@@ -1,8 +1,13 @@
-import { INIT, NEW_SESSION, JOIN_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED } from './actionTypes';
+import { INIT, NEW_SESSION, JOIN_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION } from './actionTypes';
 import { PLAYER_X, PLAYER_Y, HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from '../constants';
 import Constants from 'expo-constants';
+import PubNub from 'pubnub';
 
 const { pubnubKeys, aws_api } = Constants.manifest.extra;
+const pubnub = new PubNub(Object.assign({}, pubnubKeys, {
+  subscribeRequestTimeout: 60000,
+  presenceTimeout: 122,
+}));
 
 const INITIAL_STATE = {
   screen: HOME_SCREEN,
@@ -16,7 +21,10 @@ const INITIAL_STATE = {
   },
   sessionId: null,
   availableSessionsToJoin: [],
-  pubnubKeys, aws_api
+  pubnub,
+  aws_api,
+  moves: [{ squares: Array(9).fill(null) }],
+  gameOver: false
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
@@ -37,16 +45,33 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         screen: JOIN_SCREEN,
         player: PLAYER_Y
       };
+
     case SESSION_CREATED:
       return {
         ...state,
         sessionId: action.payload.Id
       };
+
     case AWAIT_SESSIONS_FETCHED:
       return {
         ...state,
         availableSessionsToJoin: action.payload
       };
+
+    case ADD_MOVE:
+      return {
+        ...state,
+        moves: state.moves.concat([{ squares: action.payload.squares }]),
+        playerTurn: action.payload.playerTurn
+      };
+
+    case END_SESSION:
+      return {
+        ...state,
+        gameOver: true,
+        result: action.payload
+      };
+
     default:
       return state;
   }
