@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 24
   },
-  button1: {
+  buttonGreen: {
     backgroundColor: "green",
   },
-  button2: {
+  buttonBlue: {
     backgroundColor: "blue",
   },
-  button3: {
+  buttonRed: {
     backgroundColor: "red",
   },
   buttonText: {

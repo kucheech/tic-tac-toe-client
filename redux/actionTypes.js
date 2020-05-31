@@ -1,3 +1,5 @@
 export const INIT = 'INIT';
 export const NEW_SESSION = 'NEW_SESSION';
 export const JOIN_SESSION = 'JOIN_SESSION';
+export const SESSION_CREATED = 'SESSION_CREATED';
+export const AWAIT_SESSIONS_FETCHED = 'AWAIT_SESSIONS_FETCHED';

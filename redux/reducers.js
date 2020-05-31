@@ -1,5 +1,8 @@
-import { INIT, NEW_SESSION, JOIN_SESSION } from './actionTypes';
+import { INIT, NEW_SESSION, JOIN_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED } from './actionTypes';
 import { PLAYER_X, PLAYER_Y, HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from '../constants';
+import Constants from 'expo-constants';
+
+const { pubnubKeys, aws_api } = Constants.manifest.extra;
 
 const INITIAL_STATE = {
   screen: HOME_SCREEN,
@@ -10,7 +13,10 @@ const INITIAL_STATE = {
   },
   playerY: {
     name: 'Player Y'
-  }
+  },
+  sessionId: null,
+  availableSessionsToJoin: [],
+  pubnubKeys, aws_api
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
@@ -31,7 +37,16 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         screen: JOIN_SCREEN,
         player: PLAYER_Y
       };
-
+    case SESSION_CREATED:
+      return {
+        ...state,
+        sessionId: action.payload.Id
+      };
+    case AWAIT_SESSIONS_FETCHED:
+      return {
+        ...state,
+        availableSessionsToJoin: action.payload
+      };
     default:
       return state;
   }
