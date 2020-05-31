@@ -1,4 +1,4 @@
-import { INIT, NEW_SESSION, JOIN_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION } from './actionTypes';
+import { INIT, NEW_SESSION, JOIN_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION, SET_PLAYER } from './actionTypes';
 import { PLAYER_X, PLAYER_Y, HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from '../constants';
 import Constants from 'expo-constants';
 import PubNub from 'pubnub';
@@ -30,20 +30,23 @@ const INITIAL_STATE = {
 const rootReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INIT:
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        player: state.player
+      };
 
     case NEW_SESSION:
       return {
         ...state,
         screen: PLAYER_SCREEN,
-        player: PLAYER_X
+        player: Object.assign({}, state.player, { name: PLAYER_X })
       };
 
     case JOIN_SESSION:
       return {
         ...state,
         screen: JOIN_SCREEN,
-        player: PLAYER_Y
+        player: Object.assign({}, state.player, { name: PLAYER_Y })
       };
 
     case SESSION_CREATED:
@@ -63,6 +66,12 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         ...state,
         moves: state.moves.concat([{ squares: action.payload.squares }]),
         playerTurn: action.payload.playerTurn
+      };
+
+    case SET_PLAYER:
+      return {
+        ...state,
+        player: action.payload
       };
 
     case END_SESSION:
