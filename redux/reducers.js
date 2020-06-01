@@ -1,4 +1,4 @@
-import { INIT, NEW_SESSION, JOIN_SESSION, GOTO_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION, SET_PLAYER, SET_PLAYER_TURN, SESSION_UPDATED, START_GAME } from './actionTypes';
+import { INIT, NEW_SESSION, JOIN_SESSION, GOTO_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION, SET_PLAYER, SET_PLAYER_TURN, SESSION_UPDATED, START_GAME, SET_LOADING } from './actionTypes';
 import { PLAYER_X, PLAYER_O, HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from '../constants';
 import Constants from 'expo-constants';
 import PubNub from 'pubnub';
@@ -18,7 +18,8 @@ const INITIAL_STATE = {
   aws_api,
   moves: [{ squares: Array(9).fill(null) }],
   gameStarted: false,
-  gameOver: false
+  gameOver: false,
+  isLoading: false
 };
 
 const rootReducer = (state = INITIAL_STATE, action) => {
@@ -78,7 +79,8 @@ const rootReducer = (state = INITIAL_STATE, action) => {
     case AWAIT_SESSIONS_FETCHED:
       return {
         ...state,
-        availableSessionsToJoin: action.payload
+        availableSessionsToJoin: action.payload,
+        isLoading: false
       };
 
     case ADD_MOVE:
@@ -97,7 +99,8 @@ const rootReducer = (state = INITIAL_STATE, action) => {
     case SET_PLAYER:
       return {
         ...state,
-        player: action.payload
+        player: action.payload,
+        isLoading: false
       };
 
     case SESSION_UPDATED:
@@ -110,6 +113,7 @@ const rootReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         gameStarted: true,
+        isLoading: false
       };
 
     case END_SESSION:
@@ -117,6 +121,12 @@ const rootReducer = (state = INITIAL_STATE, action) => {
         ...state,
         gameOver: true,
         result: action.payload
+      };
+
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload
       };
 
     default:

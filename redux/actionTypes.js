@@ -13,3 +13,5 @@ export const SET_MOVES = 'SET_MOVES';
 export const SET_PLAYER = 'SET_PLAYER';
 export const START_GAME = 'START_GAME';
 export const GAME_OVER = 'GAME_OVER';
+
+export const SET_LOADING = 'SET_LOADING';
