@@ -12,5 +12,7 @@ export const TERMINATED = 'TERMINATED';
 
 export const WAITING_FOR_PLAYER_O = 'Waiting for Player O';
 export const PLAYER_O_JOINS = 'Player O joins. Player X, you may begin';
+export const RETURN_TO_HOMESCREEN = 'Return';
+export const CANCEL = 'Cancel';
 
 export const DISPLAY_ID = id => (id && id.slice(-5));

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { init, makeRequest, gotoSession } from '../redux/actions';
-import { AWAIT_SESSIONS_FETCHED, GOTO_SESSION } from '../redux/actionTypes';
+import { init, makeRequest, gotoSession, setLoading } from '../redux/actions';
+import { AWAIT_SESSIONS_FETCHED } from '../redux/actionTypes';
 import { AWAIT_JOIN, DISPLAY_ID } from '../constants';
 
 import styles from './styles';
@@ -18,6 +18,7 @@ const shuffle = array => {
 
 const JoinSessionScreen = props => {
   useEffect(() => {
+    props.setLoading(true);
     const url = `${props.aws_api.url}/sessions?type=${AWAIT_JOIN}`;
     const options = { method: 'GET', headers: { Accept: 'application/json', 'x-api-key': props.aws_api.key } };
     const type = AWAIT_SESSIONS_FETCHED;
@@ -40,7 +41,7 @@ const JoinSessionScreen = props => {
     <View style={styles.container}>
       <Text style={styles.welcome}>Join Session</Text>
 
-      {renderSessions(5)}
+      {props.isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : renderSessions(5)}
 
       <TouchableOpacity onPress={() => props.init()} style={[styles.button, styles.buttonRed]}>
         <Text style={styles.buttonText}>Cancel</Text>
@@ -50,5 +51,5 @@ const JoinSessionScreen = props => {
 };
 
 const mapStateToProps = state => state;
-const mapDispatchToProps = { init, makeRequest, gotoSession };
+const mapDispatchToProps = { init, makeRequest, gotoSession, setLoading };
 module.exports = connect(mapStateToProps, mapDispatchToProps)(JoinSessionScreen);
