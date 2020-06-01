@@ -7,7 +7,6 @@ const { pubnubKeys, aws_api } = Constants.manifest.extra;
 
 const changeTurn = current => (current === PLAYER_X ? PLAYER_O : PLAYER_X);
 
-
 const INITIAL_STATE = {
   screen: HOME_SCREEN,
   player: null,
