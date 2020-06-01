@@ -17,7 +17,7 @@
     "pubnub-react": "^2.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
-    "react-native": "^0.61.5",
+    "react-native": "^0.62.2",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-reanimated": "~1.7.0",
     "react-native-screens": "~2.2.0",
@@ -31,10 +31,14 @@
     "@babel/core": "~7.9.0",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
-    "react-test-renderer": "~16.9.0"
+    "jest-expo": "^37.0.0",
+    "react-test-renderer": "^16.9.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ]
   },
   "private": true
 }
