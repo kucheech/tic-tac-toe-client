@@ -3,7 +3,7 @@ import PubNub from 'pubnub';
 import { INIT, NEW_SESSION, JOIN_SESSION, GOTO_SESSION, SESSION_CREATED, AWAIT_SESSIONS_FETCHED, ADD_MOVE, END_SESSION, SET_PLAYER, SET_PLAYER_TURN, SESSION_UPDATED, START_GAME, SET_LOADING } from './actionTypes';
 import { PLAYER_X, PLAYER_O, HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from '../constants';
 
-const { pubnubKeys, aws_api } = Constants.manifest.extra;
+const { pubnubKeys, aws_api } = Constants.manifest.extra || {};
 
 const changeTurn = current => (current === PLAYER_X ? PLAYER_O : PLAYER_X);
 
