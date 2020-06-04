@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Platform, Text, View, TouchableOpacity } from 'react-native';
-import Constants from 'expo-constants';
-import useFetch from './useFetch';
+import React from 'react';
+import { View } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import PlayerScreen from './screens/PlayerScreen';
 import JoinSessionScreen from './screens/JoinSessionScreen';
 import { connect } from 'react-redux';
 import { HOME_SCREEN, PLAYER_SCREEN, JOIN_SCREEN } from './constants';
 import styles from './screens/styles';
-
-const { publishKey, subscribeKey, url } = Constants.manifest.extra;
 
 const TicTacToeApp = props => {
   return (
@@ -19,11 +15,7 @@ const TicTacToeApp = props => {
       {props.screen === JOIN_SCREEN && <JoinSessionScreen />}
     </View>
   );
-
 };
 
-const mapStateToProps = state => {
-  return state;
-};
-
+const mapStateToProps = state => state;
 module.exports = connect(mapStateToProps)(TicTacToeApp);
