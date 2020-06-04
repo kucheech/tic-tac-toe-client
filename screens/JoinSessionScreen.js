@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { init, makeRequest, gotoSession, setLoading } from '../redux/actions';
 import { AWAIT_SESSIONS_FETCHED } from '../redux/actionTypes';
@@ -25,11 +25,22 @@ const JoinSessionScreen = props => {
     props.makeRequest(url, options, type);
   }, []);
 
+  const joinSession = async id => {
+    const url = `${props.aws_api.url}/session/availability?id=${id}`;
+    const options = { method: 'GET', headers: { Accept: 'application/json', 'x-api-key': props.aws_api.key } };
+    const isSessionStillAvailable = await fetch(url, options).then(response => response.json());
+    if (isSessionStillAvailable) {
+      props.gotoSession(id);
+    } else {
+      Alert.alert('Oops, someone else has already joined this session');
+    }
+  }
+
   const renderSessions = n => {
     const sessions = shuffle(props.availableSessionsToJoin).slice(0, n);
     return sessions.length ?
       sessions.map(s => (
-        <TouchableOpacity key={s.Id} onPress={() => props.gotoSession(s.Id)} style={[styles.button, styles.buttonBlue]}>
+        <TouchableOpacity key={s.Id} onPress={() => joinSession(s.Id)} style={[styles.button, styles.buttonBlue]}>
           <Text style={styles.buttonText}>{DISPLAY_ID(s.Id)}</Text>
         </TouchableOpacity>
       ))
