@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { init, makeRequest, gotoSession, setLoading } from '../redux/actions';
@@ -17,13 +17,15 @@ const shuffle = array => {
 }
 
 const JoinSessionScreen = props => {
+  const [x, setX] = useState(0); // used for refresh page
+
   useEffect(() => {
     props.setLoading(true);
     const url = `${props.aws_api.url}/sessions?type=${AWAIT_JOIN}`;
     const options = { method: 'GET', headers: { Accept: 'application/json', 'x-api-key': props.aws_api.key } };
     const type = AWAIT_SESSIONS_FETCHED;
     props.makeRequest(url, options, type);
-  }, []);
+  }, [x]);
 
   const joinSession = async id => {
     const url = `${props.aws_api.url}/session/availability?id=${id}`;
@@ -32,7 +34,7 @@ const JoinSessionScreen = props => {
     if (isSessionStillAvailable) {
       props.gotoSession(id);
     } else {
-      Alert.alert('Oops, someone else has already joined this session');
+      Alert.alert('Oops...', 'Someone else had already joined this session', [{ text: 'refresh page', onPress: () => setX(x + 1) }], { cancelable: false });
     }
   }
 
